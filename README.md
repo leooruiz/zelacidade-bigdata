@@ -9,7 +9,7 @@
 | Item | Descrição |
 |---|---|
 | Produto | ZelaCidade: o morador registra problemas de manutenção em espaços públicos com foto e local; a IA sugere a categoria, um robô faz a triagem, a comunidade confirma e a organização responsável acompanha num painel |
-| Cidadão e território | Moradores do bairro piloto na Zona Norte de São Paulo |
+| Cidadão e território | Moradores da Zona Norte de São Paulo, na área da Subprefeitura Santana/Tucuruvi: Santana, Jardim São Paulo, Mandaqui e Tucuruvi |
 | Problema | Buracos, calçadas quebradas, iluminação apagada e obstáculos ficam sem registro organizado e sem prioridade clara |
 | Fontes deste repo | Export diário do MVP (NDJSON, interna) e Open-Meteo (chuva e temperatura, externa e pública) |
 | MVP | <https://app-zelacidade-gs-99431.azurewebsites.net> · repo <https://github.com/brunoventuri01/zelacidade> |
@@ -71,7 +71,7 @@ Pré-requisito: Docker Desktop com WSL 2 e pelo menos 4 GB de memória para o Do
    | `ZELA_API_URL` | `https://app-zelacidade-gs-99431.azurewebsites.net` |
    | `ZELA_API_KEY` | a `EXPORT_API_KEY` do MVP |
    | `ZELA_ALERTA_WEBHOOK` | opcional: webhook do Discord, Slack ou Teams para o alerta de falha |
-   | `ZELA_LATITUDE`, `ZELA_LONGITUDE` | opcionais: centro do bairro piloto (padrão −23,4990 e −46,6250) |
+   | `ZELA_LATITUDE`, `ZELA_LONGITUDE` | opcionais: centro do bairro piloto (padrão −23,4865 e −46,6210) |
 
 5. Em **Dags**, ative o `zelacidade_coleta`. Como o DAG começa em 01/11/2026 e tem `catchup=True`, o Airflow cria uma execução para cada dia já terminado. Os arquivos aparecem em `.\chegada\ocorrencias` e `.\chegada\clima`.
 

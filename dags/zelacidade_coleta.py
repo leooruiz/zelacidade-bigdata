@@ -27,8 +27,8 @@ import coleta_lib as lib
 FUSO = "America/Sao_Paulo"
 CHEGADA = Path(os.environ.get("ZELA_CHEGADA_DIR", "/opt/airflow/chegada"))
 # centro da área piloto do MVP (backend/app/data/area_piloto.json); dá para trocar por Variable
-LATITUDE_PADRAO = "-23.4990"
-LONGITUDE_PADRAO = "-46.6250"
+LATITUDE_PADRAO = "-23.4865"
+LONGITUDE_PADRAO = "-46.6210"
 
 
 def _dia_coletado() -> str:
