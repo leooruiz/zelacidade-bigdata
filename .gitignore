@@ -1,0 +1,10 @@
+.env
+logs/
+config/
+plugins/
+chegada/**/*.json
+!chegada/**/.gitkeep
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
