@@ -124,6 +124,11 @@ spark.createDataFrame(
 
 # COMMAND ----------
 
+# MAGIC %sql
+# MAGIC SELECT * FROM workspace.zelacidade.ouro_painel ORDER BY bairro, total DESC;
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## Evidências de LGPD
 # MAGIC A Ouro não tem nenhuma coluna com e-mail em claro, nome ou foto.
