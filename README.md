@@ -75,6 +75,8 @@ Pré-requisito: Docker Desktop com WSL 2 e pelo menos 4 GB de memória para o Do
 
 5. Em **Dags**, ative o `zelacidade_coleta`. Como o DAG começa em 01/11/2026 e tem `catchup=True`, o Airflow cria uma execução para cada dia já terminado. Os arquivos aparecem em `.\chegada\ocorrencias` e `.\chegada\clima`.
 
+Se a porta 8080 já estiver em uso, coloque `AIRFLOW_PORT=8081` no `.env` e use <http://localhost:8081>.
+
 Para desligar: `docker compose down`. Para apagar também o banco do Airflow: `docker compose down -v`.
 
 Se o MVP público estiver fora do ar, rode o MVP no PC (repo `zelacidade`, `docker compose up`) e use `http://host.docker.internal:8000` como `ZELA_API_URL`.
