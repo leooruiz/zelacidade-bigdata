@@ -77,6 +77,14 @@ Pré-requisito: Docker Desktop com WSL 2 e pelo menos 4 GB de memória para o Do
 
 Se a porta 8080 já estiver em uso, coloque `AIRFLOW_PORT=8081` no `.env` e use <http://localhost:8081>.
 
+Para as Variables ficarem criptografadas no banco do Airflow (coluna **Is Encrypted** = `true`), gere uma `FERNET_KEY`, coloque no `.env` e recrie os serviços antes de cadastrar as Variables:
+
+```powershell
+docker compose exec airflow-scheduler python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"
+notepad .env
+docker compose up -d --force-recreate airflow-apiserver airflow-scheduler airflow-dag-processor
+```
+
 Para desligar: `docker compose down`. Para apagar também o banco do Airflow: `docker compose down -v`.
 
 Se o MVP público estiver fora do ar, rode o MVP no PC (repo `zelacidade`, `docker compose up`) e use `http://host.docker.internal:8000` como `ZELA_API_URL`.
@@ -89,7 +97,7 @@ Se o MVP público estiver fora do ar, rode o MVP no PC (repo `zelacidade`, `dock
 | DAG agendado gravando em `chegada/` | Todo dia à meia-noite de São Paulo, desde 01/11, com catchup; um arquivo por fonte por dia, com a data no nome; a reexecução regrava o mesmo arquivo |
 | Paralelismo | `coletar_ocorrencias` e `coletar_clima` rodam ao mesmo tempo |
 | Verificação | `conferir_chegada` confere se os dois arquivos existem, se cada linha tem os campos obrigatórios e se o clima é do dia certo, sem chuva negativa |
-| Chaves fora do código | `ZELA_API_URL` e `ZELA_API_KEY` em Variables; `.env` fora do Git |
+| Chaves fora do código | `ZELA_API_URL` e `ZELA_API_KEY` em Variables, criptografadas com a `FERNET_KEY`; `.env` fora do Git |
 | Falhas | 2 novas tentativas por tarefa (1 min de espera) e alerta no log e no webhook |
 
 Sobre o clima: o histórico ERA5 do Open-Meteo chega com cerca de 5 dias de atraso, então os dias dos últimos 90 vêm da API de previsão (`past_days`) e os mais antigos, do histórico.
