@@ -44,6 +44,7 @@ flowchart LR
 | `amostras/` | Exemplos do export, só com dados simulados (`simulado=true`, e-mails `@exemplo.com`) |
 | `databricks/` | Notebooks `_config`, `00_setup`, `01_bronze`, `02_prata`, `03_ouro`, `04_consultas` e `05_export` |
 | `chegada/` | Onde o Airflow grava os arquivos do dia (fora do Git) |
+| `docs/prints/` | Prints da execução de 17/11/2026 (Airflow, camadas, consultas e tela do MVP) |
 
 ## Como rodar o Airflow (Windows)
 
@@ -129,6 +130,23 @@ Regras de qualidade da Prata:
 | R2 | ocorrências | registro de cidadão com coordenada fora da área piloto (o robô Maker e os simulados não entram na regra) |
 | R3 | ocorrências | falta a data de criação, ela é futura ou vem depois da última atualização |
 | R4 | clima | falta o dia ou a chuva é nula ou negativa |
+
+## Resultados da execução (17/11/2026)
+
+O pipeline rodou de ponta a ponta com dois lotes de dias de coleta diferentes. As ocorrências simuladas do piloto têm `simulado = true` e são geradas pelo script `backend/app/seed.py` do [repo do MVP](https://github.com/brunoventuri01/zelacidade); os registros reais (ZC-000202 a 209) foram feitos por moradores em 16/11.
+
+| Etapa | Resultado | Print |
+|---|---|---|
+| Airflow | 16 execuções com sucesso: 15 de catchup e a automática de 17/11 à 0h; coletas em paralelo | [graph](docs/prints/02_airflow_graph_paralelo.png), [execuções](docs/prints/04_airflow_16_execucoes.png), [Variables](docs/prints/01_airflow_variables_criptografadas.png) |
+| Lote 1 | 01 a 15/11: 124 linhas de ocorrências (0 reais) e 15 dias de clima | [seleção](docs/prints/06_lote1_selecao.png) |
+| Lote 2 | 16/11: 10 linhas (8 reais) e 1 dia de clima | [Volume](docs/prints/07_lote2_volume.png) |
+| Bronze | 0 → 124 → 134 linhas; a reexecução continua em 134, com 0 linhas repetidas | [contagens](docs/prints/08_bronze_contagens_lotes_e_reexecucao.png), [por arquivo](docs/prints/09_bronze_linhas_por_arquivo.png) |
+| Prata | 134 lidas, R2 barrou 5 (cidadãos fora da área), 90 ocorrências distintas depois do MERGE | [regras](docs/prints/11_prata_regras_e_barradas.png), [MERGE](docs/prints/13_prata_merge_status.png) |
+| Ouro | fato com 90 linhas, 4 dimensões e `ouro_painel` com 26 linhas (83 ocorrências) | [tabelas](docs/prints/14_ouro_tabelas.png), [ouro_painel](docs/prints/15_ouro_painel.png) |
+| Impacto (consulta 5) | 27 de 83 resolvidas com foto (32,5%), em média em 9,8 dias | [consulta 5](docs/prints/20_consulta5_impacto.png) |
+| MVP | o robô RPA publicou a `ouro_painel` e a tela Painel mostra os indicadores | [robô](docs/prints/23_robo_publica_painel.png), [Painel](docs/prints/24_tela_painel_mvp.png) |
+
+Os prints das outras consultas e da LGPD estão em [`docs/prints/`](docs/prints/).
 
 ## Testes
 
